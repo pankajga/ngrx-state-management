@@ -20,7 +20,8 @@ export class CounterEffects {
     increment$ = createEffect(() =>
         this.actions$.pipe(
             ofType(increment),
-            withLatestFrom(this.store$),
+            withLatestFrom(this.store$), //with latest will get us the state from which we can get current value
+            //[] inside switch map. first arg is action type and second arg is the state from store
             switchMap(([,c]) => 
                 from(of(this.counterService.increaseCounter(c))).pipe(
                     map((data) => incrementCounter({count: data})),
